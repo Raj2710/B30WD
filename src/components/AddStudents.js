@@ -1,9 +1,13 @@
-import React,{useState} from 'react';
+import React,{useContext,useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useNavigate} from 'react-router-dom';
+import {StudentContext} from '../App'
 
 function AddStudents(props) {
+
+    let context = useContext(StudentContext)
+
     let navigate = useNavigate();
     let [name,setName]=useState("");
     let [email,setEmail]=useState("");
@@ -12,9 +16,9 @@ function AddStudents(props) {
 
     let handleSubmit = ()=>{
         let newData = {name,email,mobile,"class":cls};
-        let newArray = [...props.data.students];
+        let newArray = [...context.students];
         newArray.push(newData);
-        props.data.setStudents(newArray)
+        context.setStudents(newArray)
 
         navigate("/all-students")
 

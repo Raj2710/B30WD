@@ -1,15 +1,16 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import {Link,useNavigate} from 'react-router-dom'
+import {StudentContext} from '../App'
+function AllStudents() {
 
-function AllStudents(props) {
-
-    let navigate = useNavigate();
+    let context = useContext(StudentContext)
+    console.log(context)
     let handleDelete = (i)=>{
-        let newArray = [...props.data.students]
+        let newArray = [...context.students]
         newArray.splice(i,1);
-        props.data.setStudents(newArray)
+        context.setStudents(newArray)
     }
 
     return <>
@@ -25,7 +26,7 @@ function AllStudents(props) {
             </thead>
             <tbody>
                 {
-                    props.data.students.map((e,i)=>{
+                    context.students.map((e,i)=>{
                         return <tr key={i}>
                                     <td>{i+1}</td>
                                     <td>{e.name}</td>

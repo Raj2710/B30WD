@@ -5,7 +5,10 @@ import AllStudents from './components/AllStudents';
 import AddStudents from './components/AddStudents';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import EditStudent from './components/EditStudent'
-import {useState} from 'react'
+import React,{useState} from 'react'
+
+export const StudentContext = React.createContext();
+
 function App() {
   let data = {
     earning:"40,000",
@@ -38,18 +41,21 @@ function App() {
 
   return <>
     <BrowserRouter>
+      
         <div style={{display:"grid",gridTemplateColumns:"15% 85%"}}>
             <div >
                 <Sidebar/>
             </div>
             <div>
+            <StudentContext.Provider value={{students,setStudents}}>
                 <Routes>
                       <Route path='/dashboard' element={<Dashboard data={data}/>}/>
-                      <Route path ='/all-students' element={<AllStudents data={{students,setStudents}}/>}/>
-                      <Route path = '/add-student' element={<AddStudents data={{students,setStudents}}/>}/>
-                      <Route path ='/edit-student/:id' element={<EditStudent data={{students,setStudents}}/>}/>
+                      <Route path ='/all-students' element={<AllStudents/>}/>
+                      <Route path = '/add-student' element={<AddStudents/>}/>
+                      <Route path ='/edit-student/:id' element={<EditStudent/>}/>
                       <Route path = '/' element={<Dashboard data={data}/>}/>
                 </Routes>
+              </StudentContext.Provider>
             </div>
         </div>
     </BrowserRouter>
