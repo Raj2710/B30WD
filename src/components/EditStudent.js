@@ -1,8 +1,8 @@
-import React,{useState,useEffect,useContext} from 'react';
+import React,{useState,useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useParams,useNavigate} from 'react-router-dom';
-import {StudentContext} from '../App'
+// import {StudentContext} from '../App'
 
 function EditStudent(props) {
 
@@ -19,7 +19,7 @@ function EditStudent(props) {
 
     // })-----> Called for each rendering 
  
-    let context = useContext(StudentContext);
+    // let context = useContext(StudentContext);
 
 
     let params = useParams();
@@ -28,31 +28,45 @@ function EditStudent(props) {
     let [email,setEmail]=useState("");
     let [mobile,setMobile]=useState("");
     let [cls,setCls]=useState("");
+    const url = "https://61ee1f7ed593d20017dbac50.mockapi.io/students/"
 
-    useEffect(()=>{
-        if(params.id<context.students.length)
-        {
+    let getData = async()=>{
+        await fetch(url+params.id)
+        .then(response => response.json())
+        .then(res=>{
+            setName(res.name);
+            setEmail(res.email);
+            setMobile(res.mobile);
+            setCls(res.class)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        }
+
+        useEffect(()=>{
             getData();
-        }
-        else
-        {
-            alert("Selected Students is Not available") 
-        }
-    },[])
-
-    let getData = ()=>{
-        setName(context.students[params.id].name)
-        setEmail(context.students[params.id].email)
-        setMobile(context.students[params.id].mobile)
-        setCls(context.students[params.id].class)
-    }
-
-    let handleSubmit = ()=>{
-        let newData = {name,email,mobile,"class":cls};
-        let newArray = [...context.students];
-        newArray.splice(params.id,1,newData)
-        context.setStudents(newArray)
-        navigate("/all-students")
+        },[])
+    let handleSubmit = async()=>{
+        await fetch(url+params.id,{
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                name,
+                email,
+                mobile,
+                class:cls
+            })
+        })
+        .then(response=>response.json())
+        .then(res=>{
+            navigate("/all-students")
+        })
+        .catch(err=>{
+            console.log(err)
+        })
 
     }
 
