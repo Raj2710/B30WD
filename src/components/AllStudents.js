@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import {Link} from 'react-router-dom'
+import axios from 'axios';
 const url = "https://61ee1f7ed593d20017dbac50.mockapi.io/students/"
 function AllStudents() {
     let [students,setStudents]=useState([]);
@@ -9,27 +10,54 @@ function AllStudents() {
     useEffect(()=>{
         getData();
       },[])
-    
-      let getData = async()=>{
-        await fetch(url)
-        .then(response => response.json())
-        .then(res=>{
-          setStudents(res)
-        })
-        .catch(err=>{
-          console.log(err)
-        })
-      }
 
+
+    //Using fetch
+    //   let getData = async()=>{
+    //     await fetch(url)
+    //     .then(response => response.json())
+    //     .then(res=>{
+    //       setStudents(res)
+    //     })
+    //     .catch(err=>{
+    //       console.log(err)
+    //     })
+    //   }
+
+    // get using axios
+    let getData = async()=>{
+        try {
+            let response = await axios.get(url)
+            setStudents(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    //using fetch
+    // let handleDelete = async(i)=>{
+    //     await fetch(url+i,{
+    //         method:'DELETE'
+    //     })
+    //     .then(response=>response.json())
+    //     .then(data=>{
+    //         getData()
+    //     })
+    // }
+
+
+    //delete using axios
 
     let handleDelete = async(i)=>{
-        await fetch(url+i,{
-            method:'DELETE'
-        })
-        .then(response=>response.json())
-        .then(data=>{
-            getData()
-        })
+        try{
+            let response = await axios.delete(url+i)
+            if(response.status==200)
+                getData()
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
     }
 
     return <>

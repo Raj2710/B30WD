@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useParams,useNavigate} from 'react-router-dom';
+import axios from 'axios'
 // import {StudentContext} from '../App'
 
 function EditStudent(props) {
@@ -30,46 +31,79 @@ function EditStudent(props) {
     let [cls,setCls]=useState("");
     const url = "https://61ee1f7ed593d20017dbac50.mockapi.io/students/"
 
+    //Usinng FETCH
+    // let getData = async()=>{
+    //     await fetch(url+params.id)
+    //     .then(response => response.json())
+    //     .then(res=>{
+    //         setName(res.name);
+    //         setEmail(res.email);
+    //         setMobile(res.mobile);
+    //         setCls(res.class)
+    //     })
+    //     .catch(err=>{
+    //         console.log(err)
+    //     })
+    //     }
+
+    //using axios
     let getData = async()=>{
-        await fetch(url+params.id)
-        .then(response => response.json())
-        .then(res=>{
-            setName(res.name);
-            setEmail(res.email);
-            setMobile(res.mobile);
-            setCls(res.class)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-        }
+       try {
+        let response = await axios.get(url+params.id)
+        setName(response.data.name);
+        setEmail(response.data.email);
+        setMobile(response.data.mobile);
+        setCls(response.data.class)
+       } catch (error) {
+           console.log(error)
+       }
+    }
+        
+    // let handleSubmit = async()=>{
+    //     await fetch(url+params.id,{
+    //         method:'PUT',
+    //         headers:{
+    //             'Content-Type':'application/json'
+    //         },
+    //         body:JSON.stringify({
+    //             name,
+    //             email,
+    //             mobile,
+    //             class:cls
+    //         })
+    //     })
+    //     .then(response=>response.json())
+    //     .then(res=>{
+    //         navigate("/all-students")
+    //     })
+    //     .catch(err=>{
+    //         console.log(err)
+    //     })
 
-        useEffect(()=>{
-            getData();
-        },[])
+    // }
+
+
     let handleSubmit = async()=>{
-        await fetch(url+params.id,{
-            method:'PUT',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-                name,
-                email,
-                mobile,
-                class:cls
-            })
-        })
-        .then(response=>response.json())
-        .then(res=>{
+       try {
+        let response = await axios.put(url+params.id,{
+            name,
+            email,
+            mobile,
+            class:cls
+        });
+        if(response.status==200)
+        {
             navigate("/all-students")
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-
+        }
+       } catch (error) {
+           console.log(error)
+       }
     }
 
+
+    useEffect(()=>{
+        getData();
+    },[])
 
     return (
         <Form>
