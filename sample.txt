@@ -1,0 +1,46 @@
+-- CREATE database students;
+-- use students;
+-- create table register(
+-- 	id int not null auto_increment,
+--     firstName varchar(255) not null default 'User Name',
+--     lastName varchar(255),
+--     mobile varchar(10) unique,
+--     email varchar(255) unique,
+--     gender varchar(20),
+--     primary key (id)
+--     );	
+-- DROP table register -- --> delete the table
+-- TRUNCATE TABLE register --> delete the content of table
+
+-- ALTER TABLE register ADD column fatherName varchar(255);
+-- ALTER TABLE register DROP column lastname;
+
+-- ALTER TABLE register change column firstName name varchar(255);
+
+-- DDL(CREATE,DROP, ALTER,TRUNCATE), DML, DQL(SELECT), TCL, DCL
+
+-- insert into register values (2,'Hema','Darshini','9659577123','hema@gmail.com','Female');
+
+-- insert into register (firstName,lastName,mobile, email,gender)values ('1234546464','vishwa24@gmail.com');
+-- update register set firstName = 'Hema', lastName='Priya', gender='Female' where email='vishwa24@gmail.com';
+-- update register set email ='hemapriya@gmail.com' where id = 1;
+-- DELETE from register where firstName = 'Hema';
+
+-- insert into register (firstName,lastName,mobile, email,gender) values 
+-- ('Prabhu','Ram', '1534546464','prabhu@gmail.com','Male'),
+-- ('Kiran','Kumar','4754654680','kirankumar@gmail.com','Male'),
+-- ('Akalya', 'Devi','5349498483', 'akal@gmail.com','Female'),
+-- ('maha','lakshmi','5887987417','maha@email.com','Female');
+
+-- select * from register where gender='Male';
+
+-- select * from register limit 2 offset 4
+
+-- select * from register where firstname like 'Kiran'
+
+-- select firstName as Name from register
+
+-- select count(id) as count from register where email like '%email.com'
+
+-- select gender, count(id) from register group by gender;  
+
